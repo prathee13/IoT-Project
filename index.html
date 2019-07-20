@@ -1,0 +1,336 @@
+<html>
+
+<head>
+  <title>Grocery</title>
+  <style>
+    ul {
+      list-style-type: none;
+    }
+
+    li {
+      display: inline-block;
+    }
+
+    input[type="checkbox"][id^="cb"] {
+      display: none;
+    }
+
+    label {
+      border: 1px solid #fff;
+      padding: 10px;
+      display: block;
+      position: relative;
+      margin: 10px;
+      cursor: pointer;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    label::before {
+      background-color: white;
+      color: white;
+      content: " ";
+      display: block;
+      border-radius: 50%;
+      border: 1px solid grey;
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      width: 25px;
+      height: 25px;
+      text-align: center;
+      line-height: 28px;
+      transition-duration: 0.4s;
+      transform: scale(0);
+    }
+
+    label img {
+      height: 100px;
+      width: 100px;
+      transition-duration: 0.2s;
+      transform-origin: 50% 50%;
+    }
+
+    :checked+label {
+      border-color: #ddd;
+    }
+
+    :checked+label::before {
+      content: "✓";
+      background-color: grey;
+      transform: scale(1);
+    }
+
+    :checked+label img {
+      transform: scale(0.9);
+      box-shadow: 0 0 5px #333;
+      z-index: -1;
+    }
+
+    #footer {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: auto auto auto auto auto auto;
+      background-color: #2196F3;
+      padding: 10px;
+    }
+
+    .grid-item {
+      background-color: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(0, 0, 0, 0.8);
+      padding: 20px;
+      font-size: 30px;
+      text-align: center;
+    }
+  </style>
+  </style>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
+  </script>
+
+  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+  <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+  <script>
+    WlocalStorage = window.localStorage;
+
+    let products = [
+      {
+        id: 1,
+        location: "1070686732375",
+        isActive: false,
+      },
+      {
+        id: 2,
+        location: "864041500678",
+        isActive: false,
+      },
+      {
+        id: 3,
+        location: "609728239936",
+        isActive: false,
+      }
+    ];
+  </script>
+</head>
+
+<body>
+
+  <div data-role="page" id="page1">
+    <div data-role="header">
+      <h2>Welcome to the Store.</h2>
+    </div>
+
+    <div data-role="main" class="ui-content">
+      <ul>
+        <li><input value="Bread" type="checkbox" id="cb1" class="prod" />
+          <label for="cb1">Bread</label>
+        </li>
+        <br>
+        <li><input value="Instant Noodles" type="checkbox" id="cb2" class="prod" />
+          <label for="cb2">Instant Noodles </label>
+        </li>
+        <br>
+        <li><input value="Milk" type="checkbox" id="cb3" class="prod" />
+          <label for="cb3">Milk</label>
+        </li>
+        <br>
+        <li><input value="Canned tomatoes" type="checkbox" id="cb4" class="prod" />
+          <label for="cb4">Canned tomatoes -</label>
+        </li>
+        <br>
+        <!-- Additional Items -->
+        <li><input value="Mushrooms" type="checkbox" id="cb5" class="prod" />
+          <label for="cb5">Mushrooms -</label>
+        </li>
+        <br>
+        <li><input value="Eggs" type="checkbox" id="cb6" class="prod" />
+          <label for="cb6">Eggs</label>
+        </li>
+        <br>
+        <li><input value="Beverages" type="checkbox" id="cb7" class="prod" />
+          <label for="cb7">Beverages.</label>
+        </li>
+        <br>
+        <li><input value="Seasonings" type="checkbox" id="cb8" class="prod" />
+          <label for="cb8">Seasonings</label>
+        </li>
+        <br>
+        <li><input value="Cheese Slice" type="checkbox" id="cb9" class="prod" />
+          <label for="cb9">Cheese Slice</label>
+        </li>
+        <br>
+        <li><input value="Ham" type="checkbox" id="cb10" class="prod" />
+          <label for="cb10">Ham</label>
+        </li>
+        <br>
+        <li><input value="Pet food" type="checkbox" id="cb11" class="prod" />
+          <label for="cb11">Pet food</label>
+        </li>
+      </ul>
+
+      <button id="btn" onclick="onClickBox()" disabled> Proceed to cart. </button>
+
+      <script>
+        function onClickBox() {
+          var chosen_items = [];
+          var arr = $('.prod').map(function () {
+            if (this.checked) {
+              chosen_items.push(this.value);
+            }
+          });
+          // console.log(chosen_items);
+          WlocalStorage.setItem("checked", JSON.stringify(chosen_items));
+          location.href = 'index.html#page2'
+        }
+
+                    // $(document).ready(function() {
+                    //   var arr = JSON.parse(localStorage.getItem('checked')) || [];
+                    //   arr.forEach(function(checked, i) {
+                    //       $('.box').eq(i).prop('checked', checked);
+                    //   });
+                    // $(".box").click(onClickBox);
+                    // }); 
+      </script>
+    </div>
+
+    <div data-role="footer" id="footer">
+      <h1>Thank You. Visit Again.</h1>
+    </div>
+  </div>
+
+
+  <div data-role="page" id="page2">
+    <div data-role="header">
+      <h2>Your Cart Has:</h2>
+    </div>
+
+    <div data-role="main" class="ui-content">
+      <div id="show_list">
+      </div>
+      <script>
+        $('#page2').on('pageshow', function (event, ui) {
+          var cartItems = JSON.parse(WlocalStorage.getItem("checked"));
+          var content_div = $("#show_list");
+          content_div.html("<ul>")
+          for (item of cartItems) {
+            content_div.append("<li>" + item + "</li><br>");
+          }
+          content_div.append("</ul>");
+        });
+
+      </script>
+
+      <hr>
+
+      Enter Smart Cart ID to connect:
+      <input type="text" name="cartId" placeholder="4 digit Cart ID" />
+
+      <div class="grid-container">
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item" style="background-color: #A52A2A" id="1">3</div>
+        <div class="grid-item" style="background-color: #A52A2A">4</div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item" style="background-color: #A52A2A" id="2">13</div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item" style="background-color: #A52A2A">18</div>
+        <div class="grid-item" style="background-color: #A52A2A">19</div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item" style="background-color: #A52A2A">24</div>
+        <div class="grid-item" style="background-color:  #A52A2A">25</div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item" style="background-color: #A52A2A" id="3">30</div>
+        <div class="grid-item" style="background-color: #A52A2A">31</div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item" style="background-color: #A52A2A">36</div>
+
+        <!-- ID: 1070686732375-->
+        <!-- ID: 864041500678-->
+        <!-- ID: 609728239936-->
+      </div>
+
+    </div>
+
+    <div data-role="footer" id="footer">
+      <button style="width:100%" onclick="location.href='index.html#page1'"> Back to store. </button>
+    </div>
+  </div>
+
+
+  <script type="text/javascript">
+
+    var checkboxes = $("input[type='checkbox']");
+
+    submitButt = $("#btn");
+
+    checkboxes.change(function () {
+
+      var isOneChecked = false;
+
+      checkboxes.each(function (elm) {
+        if (checkboxes[elm].checked) {
+          isOneChecked = true;
+        }
+      });
+
+      if (isOneChecked) {
+        submitButt.removeAttr("disabled");
+      } else {
+        submitButt.attr("disabled", true);
+      }
+
+      //Read the tag and get the location.
+      function readTag(tagId, ipAddress, port) {
+        //Obtain id by mapping (array of objects)
+        $.get("http://" + ipAddress + ":" + port + "/JSONandServlet/JSONServlet?id=" + tagId + "&mode=2", function (data) {
+          var location = data["location"];
+          var req_obj = products.filter((x) => x.location == location);
+          if (req_obj.length > 0) {
+            var active_block = products.filter((x) => x.isActive == true)
+            if (active_block.length > 0) {
+              active_block.map((x) => {
+                x.isActive = false; 
+                document.getElementById(req_obj.id).style.color = "blue";
+              });
+            }
+            document.getElementById(req_obj.id).style.color = "yellow";
+            req_obj.isActive = true;
+          }
+        });
+      }
+
+    });
+  </script>
+
+</body>
+
+</html>
